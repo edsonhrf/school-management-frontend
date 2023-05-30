@@ -234,7 +234,7 @@ const Sidebar = () => {
             />
             <Item
               title="Logout"
-              to="/logout"
+              to="/"
               icon={<LogoutIcon />}
               selected={() => console.log("Logout Button")}
               setSelected={() => console.log("Logout Button")}
