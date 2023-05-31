@@ -12,8 +12,8 @@ import GeographyChart from "../../components/GeographyChart";
 import BarChart from "../../components/BarChart";
 import StatBox from "../../components/StatBox";
 import ProgressCircle from "../../components/ProgressCircle";
-import Topbar from "./../../scenes/global/Topbar";
-import Sidebar from "./../../scenes/global/Sidebar";
+import Topbar from "../../components/global/Topbar";
+import Sidebar from "../../components/global/Sidebar";
 
 const Dashboard = () => {
   const theme = useTheme();

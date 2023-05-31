@@ -14,8 +14,8 @@ import {
 } from "@mui/material";
 import Header from "../../components/Header";
 import { tokens } from "../../theme";
-import Topbar from "./../../scenes/global/Topbar";
-import Sidebar from "./../../scenes/global/Sidebar";
+import Topbar from "../../components/global/Topbar";
+import Sidebar from "../../components/global/Sidebar";
 
 const Calendar = () => {
   const theme = useTheme();

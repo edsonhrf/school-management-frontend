@@ -6,8 +6,8 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import Typography from "@mui/material/Typography";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
 import { tokens } from "../../theme";
-import Topbar from "./../../scenes/global/Topbar";
-import Sidebar from "./../../scenes/global/Sidebar";
+import Topbar from "../../components/global/Topbar";
+import Sidebar from "../../components/global/Sidebar";
 
 const FAQ = () => {
   const theme = useTheme();

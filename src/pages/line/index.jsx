@@ -1,19 +1,19 @@
 import { Box } from "@mui/material";
 import Header from "../../components/Header";
-import PieChart from "../../components/PieChart";
-import Topbar from "./../../scenes/global/Topbar";
-import Sidebar from "./../../scenes/global/Sidebar";
+import LineChart from "../../components/LineChart";
+import Topbar from "../../components/global/Topbar";
+import Sidebar from "../../components/global/Sidebar";
 
-const Pie = () => {
+const Line = () => {
   return (
     <div className="app">
       {<Sidebar />}
       <main className="content">
         {<Topbar />}
         <Box m="20px">
-          <Header title="Pie Chart" subtitle="Simple Pie Chart" />
+          <Header title="Line Chart" subtitle="Simple Line Chart" />
           <Box height="75vh">
-            <PieChart />
+            <LineChart />
           </Box>
         </Box>
       </main>
@@ -21,4 +21,4 @@ const Pie = () => {
   );
 };
 
-export default Pie;
+export default Line;

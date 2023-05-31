@@ -3,8 +3,8 @@ import { Formik } from "formik";
 import * as yup from "yup";
 import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
-import Topbar from "./../../scenes/global/Topbar";
-import Sidebar from "./../../scenes/global/Sidebar";
+import Topbar from "../../components/global/Topbar";
+import Sidebar from "../../components/global/Sidebar";
 
 const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
