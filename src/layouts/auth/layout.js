@@ -1,5 +1,6 @@
 import React from 'react';
 import { Box } from '@mui/material';
+import LoginImage from '../../assets/login.jpg';
 
 const Layout = ({ children }) => {
   return (
@@ -28,7 +29,7 @@ const Layout = ({ children }) => {
           backgroundColor: '#f0f0f0',
         }}
       >
-        <img src="/assets/login.jpg" alt="Login Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
+        <img src={LoginImage} alt="Login Logo" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
       </Box>
     </Box>
   );

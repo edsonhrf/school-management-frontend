@@ -1,0 +1,46 @@
+/* layout.css */
+.not-found-layout {
+    position: relative;
+    min-height: 100vh;
+  }
+  
+  .background-image {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: url("../../../src/assets/not-found-image.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0.4;
+  }
+  
+  .content {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; 
+    align-items: center;
+    height: 100vh;
+    text-align: center;
+    color: white;
+  }
+
+  h1 {
+    font-size: 2rem;
+  }
+  
+  p {
+    font-size: 2rem;
+    margin-bottom: 1rem;
+    margin-bottom: 50px;
+  }
+  
+  a {
+    font-size: 1rem;
+    color: white;
+    text-decoration: underline;
+  }
+  

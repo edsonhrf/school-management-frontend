@@ -15,6 +15,7 @@ import CalendarTodayOutlinedIcon from "@mui/icons-material/CalendarTodayOutlined
 import HelpOutlineOutlinedIcon from "@mui/icons-material/HelpOutlineOutlined";
 import BarChartOutlinedIcon from "@mui/icons-material/BarChartOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
+import UserImage from "../../assets/user.png";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
@@ -95,7 +96,7 @@ const Sidebar = () => {
                   alt="profile-user"
                   width="100px"
                   height="100px"
-                  src={`../../assets/user.png`}
+                  src={UserImage}
                   style={{ cursor: "pointer", borderRadius: "50%" }}
                 />
               </Box>
