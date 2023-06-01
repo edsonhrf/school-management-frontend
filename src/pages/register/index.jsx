@@ -1,25 +1,28 @@
-import { useCallback, useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
   Alert,
   Box,
   Button,
-  // FormHelperText,
   Link,
   Stack,
-  Tab,
-  Tabs,
   TextField,
   Typography,
 } from "@mui/material";
 import Layout from "../../layouts/auth/layout";
+import { useNavigate } from "react-router-dom";
 
-const Login = () => {
-  const [method, setMethod] = useState("email");
+const Register = () => {
+  const navigate = useNavigate();
+
+  const handleContinue = () => {
+    navigate("/home");
+  };
+
   const formik = useFormik({
     initialValues: {
       email: "edsonhrf@gmail.com",
+      name: "Edson Henrique Ramos Figueiredo",
       password: "Password123!",
       submit: null,
     },
@@ -29,6 +32,7 @@ const Login = () => {
         .max(255)
         .required("Email is required"),
       password: Yup.string().max(255).required("Password is required"),
+      name: Yup.string().max(255).required("Name is required"),
     }),
     // onSubmit: async (values, helpers) => {
     //   try {
@@ -41,10 +45,6 @@ const Login = () => {
     //   }
     // }
   });
-
-  const handleMethodChange = useCallback((event, value) => {
-    setMethod(value);
-  }, []);
 
   return (
     <>
@@ -73,27 +73,37 @@ const Login = () => {
           >
             <div>
               <Stack spacing={1} sx={{ mb: 3 }}>
-                <Typography variant="h4" color="primary">Login</Typography>
+                <Typography variant="h4" color="primary">Register</Typography>
                 <Typography color="primary" variant="body2">
-                  Don&apos;t have an account? &nbsp;
+                  Already have an account? &nbsp;
                   <Link
                     // component={NextLink}
-                    href="/auth/register"
+                    href="/login"
                     underline="hover"
                     variant="subtitle2"
                     color="text.primary"
                   >
-                    Register
+                    Log in
                   </Link>
                 </Typography>
               </Stack>
-              <Tabs onChange={handleMethodChange} sx={{ mb: 3,color: 'text.primary' }} value={method}>
-                <Tab label="Email" value="email" />
-                <Tab label="Phone Number" value="phoneNumber" />
-              </Tabs>
-              {method === "email" && (
                 <form noValidate onSubmit={formik.handleSubmit}>
                   <Stack spacing={3}>
+                    <TextField
+                        error={
+                          !!(formik.touched.name && formik.errors.name)
+                        }
+                        fullWidth
+                        helperText={
+                          formik.touched.name && formik.errors.name
+                        }
+                        label="Name"
+                        name="name"
+                        onBlur={formik.handleBlur}
+                        onChange={formik.handleChange}
+                        type="text"
+                        value={formik.values.name}
+                      />
                       <TextField
                         error={!!(formik.touched.email && formik.errors.email)}
                         fullWidth
@@ -130,14 +140,15 @@ const Login = () => {
                     </Typography>
                   )}
                   <Button
-                    fullWidth
-                    size="large"
-                    sx={{ mt: 3 }}
-                    type="submit"
-                    variant="contained"
-                  >
-                    Continue
-                  </Button>
+                      fullWidth
+                      size="large"
+                      sx={{ mt: 3 }}
+                      type="submit"
+                      variant="contained"
+                      onClick={handleContinue}
+                    >
+                      Continue
+                    </Button>
                   {/* <Button
                   fullWidth
                   size="large"
@@ -148,21 +159,10 @@ const Login = () => {
                 </Button> */}
                   <Alert color="primary" severity="info" sx={{ mt: 3 }}>
                     <div>
-                      You can use your <b>email</b> and <b>password</b> to login in the app.
+                      You should use your <b>name</b>, <b>email</b> and <b>password</b> to register in the app.
                     </div>
                   </Alert>
                 </form>
-              )}
-              {method === "phoneNumber" && (
-                <div>
-                  <Typography sx={{ mb: 1 }} variant="h6">
-                    Not available yet
-                  </Typography>
-                  <Typography color="text.secondary">
-                    It will be available in the next versions{" "}
-                  </Typography>
-                </div>
-              )}
             </div>
           </Box>
         </Box>
@@ -171,4 +171,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default Register;
