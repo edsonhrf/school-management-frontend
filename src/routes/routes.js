@@ -2,6 +2,7 @@ import React from "react";
 import { Routes, Route, Navigate } from "react-router-dom";
 import Login from "../pages/login";
 import Register from "../pages/register";
+import Profile from "../pages/profile";
 import NotFound from "../layouts/notFound";
 import Dashboard from "../pages/dashboard";
 import Team from "../pages/team";
@@ -21,6 +22,7 @@ function AppRoutes() {
       <Route path="/" element={<Navigate to="/login" />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/profile" element={<Profile />} />
       <Route path="/home" element={<Dashboard />} />
       <Route path="/team" element={<Team />} />
       <Route path="/contacts" element={<Contacts />} />
