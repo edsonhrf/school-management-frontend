@@ -159,11 +159,18 @@ const Sidebar = () => {
               color={colors.grey[300]}
               sx={{ m: "15px 0 5px 20px" }}
             >
-              Pages
+              Registrations
             </Typography>
             <Item
+              title="Enroll Person"
+              to="/enroll-person"
+              icon={<PersonAddIcon />}
+              selected={selected}
+              setSelected={setSelected}
+            />
+            <Item
               title="Create User"
-              to="/form"
+              to="/create-user"
               icon={<PersonAddIcon />}
               selected={selected}
               setSelected={setSelected}

@@ -6,7 +6,7 @@ import Header from "../../components/Header";
 import Topbar from "../../components/global/Topbar";
 import Sidebar from "../../components/global/Sidebar";
 
-const Form = () => {
+const CreateUserForm = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
 
   const handleFormSubmit = (values) => {
@@ -161,4 +161,4 @@ const initialValues = {
   address2: "",
 };
 
-export default Form;
+export default CreateUserForm;

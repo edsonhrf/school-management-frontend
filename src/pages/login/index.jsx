@@ -13,7 +13,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import Layout from "../../layouts/auth/layout";
+import Layout from "../../layouts/auth";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
