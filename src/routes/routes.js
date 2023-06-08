@@ -23,6 +23,7 @@ function AppRoutes() {
       <Route path="/" element={<Navigate to="/login" />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+
       <Route path="/profile" element={<Profile />} />
       <Route path="/home" element={<Dashboard />} />
       <Route path="/team" element={<Team />} />
@@ -36,6 +37,7 @@ function AppRoutes() {
       <Route path="/faq" element={<FAQ />} />
       <Route path="/calendar" element={<Calendar />} />
       <Route path="/geography" element={<Geography />} />
+
       <Route path="*" element={<NotFound />} />
     </Routes>
   );

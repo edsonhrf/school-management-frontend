@@ -1,4 +1,5 @@
-import React from "react";
+import React, { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -20,6 +21,14 @@ import "react-toastify/dist/ReactToastify.css";
 const Register = () => {
   const [showPassword, setShowPassword] = React.useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = React.useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/home");
+    }
+  }, [navigate]);
 
   const handleClickShowPassword = () => {
     setShowPassword(!showPassword);
@@ -75,16 +84,7 @@ const Register = () => {
           resetForm();
         } else {
           const data = await response.json();
-          if (data.error.includes("enrollment number already exists")) {
-            toast.error("A user with this enrollment number already exists!");
-          } else if (data.error.includes("Enrollment number not found")){
-            toast.error("Enrollment number not found in the institution!");
-          }
-          else {
-            toast.error(
-              "Registration failed! Please consult logs for details!"
-            );
-          }
+          toast.error(data.message);
         }
       } catch (error) {
         console.error("Request error: ", error);

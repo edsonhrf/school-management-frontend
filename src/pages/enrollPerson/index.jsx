@@ -14,8 +14,8 @@ import useMediaQuery from "@mui/material/useMediaQuery";
 import Header from "../../components/Header";
 import Topbar from "../../components/global/Topbar";
 import Sidebar from "../../components/global/Sidebar";
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const EnrollPersonForm = () => {
   const [radioValue, setRadioValue] = useState(null);
@@ -29,6 +29,7 @@ const EnrollPersonForm = () => {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${localStorage.getItem("token")}`,
         },
         body: JSON.stringify(valuesWithEnrollType),
       });
@@ -39,13 +40,15 @@ const EnrollPersonForm = () => {
         setRadioValue(null);
       } else {
         const data = await response.json();
-      if (data.error.includes("email_1 dup key")) {
-        toast.error("Email already registered!");
-      } else {
-        toast.error("Registration failed! Please consult logs for details!");
+        if (
+          data.error.includes("duplicate key error") &&
+          data.error.includes("email")
+        ) {
+          toast.error("Email already registered!");
+        } else {
+          toast.error("Registration failed! Please consult logs for details!");
+        }
       }
-      }
-
     } catch (error) {
       console.error("Request error: ", error);
     }
@@ -158,38 +161,35 @@ const EnrollPersonForm = () => {
                         value={radioValue}
                         onChange={(event) => setRadioValue(event.target.value)}
                       >
-                        <Box
-                          display="flex"
-                          gap="100%"
-                        >
-                            <FormControlLabel
-                              value="student"
-                              control={
-                                <Radio
-                                  sx={{
-                                    "&.Mui-checked": {
-                                      color: "#4cceac",
-                                    },
-                                  }}
-                                  required
-                                />
-                              }
-                              label="Student"
-                            />
-                            <FormControlLabel
-                              value="employee"
-                              control={
-                                <Radio
-                                  sx={{
-                                    "&.Mui-checked": {
-                                      color: "#4cceac",
-                                    },
-                                  }}
-                                  required
-                                />
-                              }
-                              label="Employee"
-                            />
+                        <Box display="flex" gap="100%">
+                          <FormControlLabel
+                            value="student"
+                            control={
+                              <Radio
+                                sx={{
+                                  "&.Mui-checked": {
+                                    color: "#4cceac",
+                                  },
+                                }}
+                                required
+                              />
+                            }
+                            label="Student"
+                          />
+                          <FormControlLabel
+                            value="employee"
+                            control={
+                              <Radio
+                                sx={{
+                                  "&.Mui-checked": {
+                                    color: "#4cceac",
+                                  },
+                                }}
+                                required
+                              />
+                            }
+                            label="Employee"
+                          />
                         </Box>
                       </RadioGroup>
                     </Box>

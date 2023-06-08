@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react";
+import { useCallback, useState, useEffect } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import {
@@ -12,13 +12,26 @@ import {
   Tabs,
   TextField,
   Typography,
+  IconButton,
+  InputAdornment,
 } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
 import Layout from "../../layouts/auth";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const Login = () => {
   const [method, setMethod] = useState("email");
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      navigate("/home");
+    }
+  }, [navigate]);
 
   const handleContinue = () => {
     navigate("/home");
@@ -27,31 +40,56 @@ const Login = () => {
   const formik = useFormik({
     initialValues: {
       email: "edsonhrf@gmail.com",
+      enrollmentNumber: 202300002,
       password: "Password123!",
       submit: null,
     },
     validationSchema: Yup.object({
+      enrollmentNumber: Yup.number(),
       email: Yup.string()
         .email("Must be a valid email")
         .max(255)
         .required("Email is required"),
       password: Yup.string().max(255).required("Password is required"),
     }),
-    // onSubmit: async (values, helpers) => {
-    //   try {
-    //     await auth.signIn(values.email, values.password);
-    //     router.push('/');
-    //   } catch (err) {
-    //     helpers.setStatus({ success: false });
-    //     helpers.setErrors({ submit: err.message });
-    //     helpers.setSubmitting(false);
-    //   }
-    // }
+    onSubmit: async (values, helpers) => {
+      try {
+        const response = await fetch("http://localhost:5000/user/auth/login", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            email: values.email,
+            password: values.password,
+          }),
+        });
+
+        const data = await response.json();
+
+        if (response.ok) {
+          localStorage.setItem("token", data.token);
+          toast.success("Login successful!");
+          handleContinue();
+        } else {
+          toast.error(data.message);
+        }
+      } catch (error) {
+        console.error(error);
+        toast.error("An error occurred. Please try again.");
+      }
+
+      helpers.setSubmitting(false);
+    },
   });
 
   const handleMethodChange = useCallback((event, value) => {
     setMethod(value);
   }, []);
+
+  const handleClickShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   return (
     <>
@@ -61,7 +99,7 @@ const Login = () => {
       <Layout>
         <Box
           sx={{
-            backgroundColor: "#3299CC",
+            backgroundColor: "#e89746",
             flex: "1 1 auto",
             alignItems: "center",
             display: "flex",
@@ -102,7 +140,7 @@ const Login = () => {
                 value={method}
               >
                 <Tab label="Email" value="email" />
-                <Tab label="Phone Number" value="phoneNumber" />
+                <Tab label="Enroll Number" value="enrollmentNumber" />
               </Tabs>
               {method === "email" && (
                 <form noValidate onSubmit={formik.handleSubmit}>
@@ -130,8 +168,26 @@ const Login = () => {
                       name="password"
                       onBlur={formik.handleBlur}
                       onChange={formik.handleChange}
-                      type="password"
+                      type={showPassword ? "text" : "password"}
                       value={formik.values.password}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              edge="end"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={(e) => e.preventDefault()}
+                              aria-label="toggle password visibility"
+                            >
+                              {showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
                     />
                   </Stack>
                   {/* <FormHelperText sx={{ mt: 1 }}>
@@ -142,16 +198,15 @@ const Login = () => {
                       {formik.errors.submit}
                     </Typography>
                   )}
-                    <Button
-                      fullWidth
-                      size="large"
-                      sx={{ mt: 3 }}
-                      type="submit"
-                      variant="contained"
-                      onClick={handleContinue}
-                    >
-                      Continue
-                    </Button>
+                  <Button
+                    fullWidth
+                    size="large"
+                    sx={{ mt: 3 }}
+                    type="submit"
+                    variant="contained"
+                  >
+                    Continue
+                  </Button>
                   {/* <Button
                   fullWidth
                   size="large"
@@ -168,15 +223,83 @@ const Login = () => {
                   </Alert>
                 </form>
               )}
-              {method === "phoneNumber" && (
-                <div>
-                  <Typography sx={{ mb: 1 }} variant="h6">
-                    Not available yet
-                  </Typography>
-                  <Typography color="text.secondary">
-                    It will be available in the next versions{" "}
-                  </Typography>
-                </div>
+              {method === "enrollmentNumber" && (
+                <form noValidate onSubmit={formik.handleSubmit}>
+                  <Stack spacing={3}>
+                    <TextField
+                      error={
+                        !!(
+                          formik.touched.enrollmentNumber &&
+                          formik.errors.enrollmentNumber
+                        )
+                      }
+                      fullWidth
+                      helperText={
+                        formik.touched.enrollmentNumber &&
+                        formik.errors.enrollmentNumber
+                      }
+                      label="Enrollment Number"
+                      name="enrollmentNumber"
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      type="number"
+                      value={formik.values.enrollmentNumber}
+                    />
+                    <TextField
+                      error={
+                        !!(formik.touched.password && formik.errors.password)
+                      }
+                      fullWidth
+                      helperText={
+                        formik.touched.password && formik.errors.password
+                      }
+                      label="Password"
+                      name="password"
+                      onBlur={formik.handleBlur}
+                      onChange={formik.handleChange}
+                      type={showPassword ? "text" : "password"}
+                      value={formik.values.password}
+                      InputProps={{
+                        endAdornment: (
+                          <InputAdornment position="end">
+                            <IconButton
+                              edge="end"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={(e) => e.preventDefault()}
+                              aria-label="toggle password visibility"
+                            >
+                              {showPassword ? (
+                                <VisibilityOff />
+                              ) : (
+                                <Visibility />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        ),
+                      }}
+                    />
+                  </Stack>
+                  {formik.errors.submit && (
+                    <Typography color="error" sx={{ mt: 3 }} variant="body2">
+                      {formik.errors.submit}
+                    </Typography>
+                  )}
+                  <Button
+                    fullWidth
+                    size="large"
+                    sx={{ mt: 3 }}
+                    type="submit"
+                    variant="contained"
+                  >
+                    Continue
+                  </Button>
+                  <Alert color="primary" severity="info" sx={{ mt: 3 }}>
+                    <div>
+                      You can use your <b>enroll number</b> and <b>password</b>{" "}
+                      to login in the app.
+                    </div>
+                  </Alert>
+                </form>
               )}
             </div>
           </Box>
